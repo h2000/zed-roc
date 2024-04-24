@@ -3,13 +3,13 @@ name = "Roc"
 description = "Roc language support for Zed"
 version = "0.0.1"
 schema_version = 1
-authors =  ["Alf Richter <kuehlboxen.vorgemisch0e@icloud.com>"]
+authors = ["Alf Richter <kuehlboxen.vorgemisch0e@icloud.com>"]
 repository = "https://github.com/h2000/zed-roc"
 
 [grammars.roc]
 repository = "https://github.com/faldor20/tree-sitter-roc"
-commit = "14c66eeceb7db2d5c98616036d861863b273bab8"
+commit = "15ceb1a4357462b7b60e6775363ff4f1e1f13353"
 
 [language_servers.roc]
-name = "Roc Language Server"
 language = "Roc"
+name = "Roc Language Server"

@@ -1,11 +1,11 @@
 [package]
 name = "zed_roc"
 version = "0.0.1"
-authors = [ "Alf Richter <kuehlboxen.vorgemisch0e@icloud.com>" ]
+authors = ["Alf Richter <kuehlboxen.vorgemisch0e@icloud.com>"]
 edition = "2021"
 
 [dependencies]
-zed_extension_api = "0.0.5"
+zed_extension_api = "0.0.6"
 
 [lib]
 crate-type = ["cdylib"]
