@@ -2,17 +2,21 @@
 
 An extension for Zed that adds Roc language support: 
 - syntax through treesitter and 
-- language server (work in progress, zed extension does not support it atm 2023-03-09)
+- language server
 
 ## ROC
 - Website: [roc-lang.org](https://roc-lang.org)
 - Tree Sitter: [tree-sitter-roc](https://github.com/faldor20/tree-sitter-roc)
-- WIP Language Server: [roc-language-server](https://github.com/roc-lang/roc/tree/main) included in nightly builds of the ROC compiler e.g. https://github.com/roc-lang/roc/releases/download/nightly/roc_nightly-macos_apple_silicon-latest.tar.gz
+- Language Server: [roc-language-server](https://github.com/roc-lang/roc/tree/main) included in nightly builds of the ROC compiler e.g. https://github.com/roc-lang/roc/releases/download/nightly/roc_nightly-macos_apple_silicon-latest.tar.gz, the roc_language_server binary should be included in PATH.
 
 
 ## Development
 
 ```sh
 ~/Library/Application\ Support/Zed/extensions/installed/
+less ~/Library/Logs/Zed/Zed.log
 ```
+
+![Zed Example](https://github.com/h2000/zed-roc/assets/187650/1ec0cda3-3679-4223-bc5e-3272babde364)
+
 
