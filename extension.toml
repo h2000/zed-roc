@@ -1,7 +1,7 @@
 id = "roc"
 name = "Roc"
 description = "Roc language support for Zed"
-version = "0.0.1"
+version = "0.0.2"
 schema_version = 1
 authors = ["Alf Richter <kuehlboxen.vorgemisch0e@icloud.com>"]
 repository = "https://github.com/h2000/zed-roc"
