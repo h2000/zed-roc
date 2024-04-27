@@ -13,7 +13,7 @@ impl zed::Extension for RocExtension {
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
         let path = worktree
-            .which("roc_lang_server")
+            .which("roc_language_server")
             .ok_or_else(|| "roc_lang_server not found".to_string())?;
 
         Ok(zed::Command {
