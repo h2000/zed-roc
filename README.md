@@ -9,7 +9,7 @@ An extension for Zed that adds Roc language support:
 
 - install roc from the [roc-lang](https://roc-lang.org) website
 - add roc and roc_language_server to your PATH
-- install Zed from the [Zed](https://zedapp.org) website
+- install Zed from the [Zed](https://zed.dev) website
 
 ## ROC
 
