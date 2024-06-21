@@ -52,7 +52,7 @@
 (back_arrow)
 (backslash)
 ] @punctuation.delimiter.structural
-
+(bang_expr "!" @punctuation.delimiter.structural)
 [
   ","
   ":"
@@ -70,7 +70,7 @@
 ] @punctuation.bracket
 
 [
-  "|" 
+  "|"
   "&"
   ".."
   (operator)
@@ -93,51 +93,33 @@
 
 ;----headers-----
 
-(interface_header(name)@type.interface)
-
-(imports
-  (imports_entry
-            (module)@namespace))
-
-(packages
-  (record_pattern
-    (record_field_pattern
-      (field_name)@namespace)))
-
-(app_name) @string
-(import_as) @string
-
-
 [
-    "app"
-    "packages"
-    "imports"
-    "provides"
-    "interface"
-    "exposes"
-    "expect"
-    (import_as)
+  "app"
+  "expect"
+  "module"
+  "package"
+  "import"
  ] @keyword.control
 
 ;---annotations----
 
-(annotation_type_def 
- (annotation_pre_colon 
+(annotation_type_def
+ (annotation_pre_colon
   (identifier)@function )
  (function_type))
 
-(annotation_type_def 
- (annotation_pre_colon 
+(annotation_type_def
+ (annotation_pre_colon
   (identifier)@parameter.definition ))
 
 
 ;----decleration types----
-(value_declaration(decl_left 
-  (identifier_pattern 
+(value_declaration(decl_left
+  (identifier_pattern
    (identifier)@function.definition))(expr_body(anon_fun_expr)))
 
-(value_declaration(decl_left 
-  (identifier_pattern 
+(value_declaration(decl_left
+  (identifier_pattern
    (identifier) @parameter.definition)))
 
 (backpassing_expr assignee: (identifier_pattern (identifier) @parameter.definition))

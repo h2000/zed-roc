@@ -1,6 +1,7 @@
 update-tree-sitter:
     -rm languages/roc/*.scm
-    cp ../tree-sitter-roc/queries/*.scm languages/roc
+    cd ../tree-sitter-roc && git pullr
+    cp -v ../tree-sitter-roc/queries/*.scm languages/roc
 
 clean:
     -rm -rf grammars
