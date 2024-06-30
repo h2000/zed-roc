@@ -6,3 +6,6 @@ update-tree-sitter:
 clean:
     -rm -rf grammars
     -rm -f extension.wasm
+
+update-extension:
+    cd ../zed-roc-extensions && git pullr && cd extensions/roc && git pullr
