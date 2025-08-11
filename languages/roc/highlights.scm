@@ -88,7 +88,6 @@
 (when)
 (is)
 "as"
-(to)
 ] @keyword.control.roc
 
 ;----headers-----
@@ -99,6 +98,7 @@
   "module"
   "package"
   "import"
+  "provides
  ] @keyword.control
 
 ;---annotations----
@@ -216,4 +216,3 @@
 (module)@module
 
 (identifier)@variable
-
