@@ -5,7 +5,7 @@
 
 
 ; Initialli this was at the end, but that ruined everything
-(identifier) @string
+(identifier) @variable
 
 
 ;;
@@ -338,4 +338,4 @@
 (concrete_type) @type
 
 ; this naughtly one was ruining everything
-; (identifier) @string
+; (identifier) @variable
