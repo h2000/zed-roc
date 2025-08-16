@@ -8,7 +8,7 @@ repository = "https://github.com/h2000/zed-roc"
 
 [grammars.roc]
 repository = "https://github.com/faldor20/tree-sitter-roc"
-commit = "6ea64b6434a45472bd87b0772fd84a017de0a557"
+commit = "40e52f343f1b1f270d6ecb2ca898ca9b8cba6936"
 
 [language_servers.roc]
 language = "Roc"

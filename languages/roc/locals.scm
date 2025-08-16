@@ -1,4 +1,6 @@
 (expr_body) @local.scope
+(file) @local.scope
+(provides_list (identifier)@local.reference)
 
 
 (value_declaration(decl_left 
@@ -24,7 +26,7 @@
 (alias_type_def(apply_type(concrete_type)@local.definition))
 
 (when_is_branch pattern: (_ (identifier_pattern (identifier) @local.definition)))
-(range_pattern (identifier) @local.definition)
+(spread_pattern (identifier) @local.definition)
 
 (identifier)@local.reference
 (tag_expr(tag))@local.reference
