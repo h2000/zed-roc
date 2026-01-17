@@ -5,17 +5,17 @@ An extension for Zed that adds Roc language support:
 - syntax highlighting through treesitter and
 - type tooltips, error marker, completion ... through the roc language server
 
-## Preqrequisites
+## Prerequisites
 
-- install roc from the [roc-lang](https://roc-lang.org) website
-- add roc and roc_language_server to your PATH
-- install Zed from the [Zed](https://zed.dev) website
+- Install Roc from the [roc-lang](https://roc-lang.org) website
+- Ensure the `roc` binary is in your PATH
+- Install Zed from the [Zed](https://zed.dev) website
 
 ## ROC
 
 - Website: [roc-lang.org](https://roc-lang.org)
 - Tree Sitter: [tree-sitter-roc](https://github.com/faldor20/tree-sitter-roc)
-- Language Server: [roc-language-server](https://github.com/roc-lang/roc/tree/main) included in nightly builds of the ROC compiler e.g. https://github.com/roc-lang/roc/releases/download/nightly/roc_nightly-macos_apple_silicon-latest.tar.gz, the roc_language_server binary should be included in PATH.
+- Language Server: This extension uses the new experimental LSP integrated into the `roc` CLI via `roc experimental-lsp`.
 
 ## Development
 

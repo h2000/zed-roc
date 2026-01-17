@@ -12,14 +12,14 @@ impl zed::Extension for RocExtension {
         _config: &zed::LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
-        let binary_name = "roc_language_server";
+        let binary_name = "roc";
         let path = worktree
             .which(binary_name)
             .ok_or_else(|| format!("{binary_name} executable not found in $PATH"))?;
 
         Ok(zed::Command {
             command: path,
-            args: vec![],
+            args: vec!["experimental-lsp".to_string()],
             env: Default::default(),
         })
     }
