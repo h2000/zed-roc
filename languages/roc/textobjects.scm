@@ -24,7 +24,7 @@
 [
   (annotation_type_def ) @class.inside
   (alias_type_def ) @class.inside
-  (opaque_type_def ) @class.inside
+  (nominal_type_def ) @class.inside
 ] @class.around
 
 (apply_type_arg) @parameter.inside
