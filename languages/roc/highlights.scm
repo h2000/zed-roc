@@ -10,8 +10,9 @@
 ;; opinion: typedefs cross into documentation and should be
 ;; highlighted differently from normal code
 
-(opaque_type_def (_ (concrete_type) @type.definition))
+(nominal_type_def (_ (concrete_type) @type.definition))
 (function_type (arrow) @punctuation.delimiter.structural.typedef)
+(function_type (effect_arrow) @punctuation.delimiter.structural.typedef)
 
 (parenthesized_type ["(" ")"] @punctuation.bracket.typedef)
 (tuple_type ["(" ")"] @punctuation.bracket.typedef)
@@ -24,14 +25,8 @@
 (record_field_type ":" @punctuation.delimiter.typedef)
 
 (record_field_type (field_name) @variable.other.enum.typedef)
-(ability_chain "&" @operator.typedef)
-
-(where_implements _
-  (where) @type.keyword
-  (identifier) @type.parameter
-  (implements) @type.keyword
-  (ability_chain) @type.parameter)
-
+(where_clause
+  (where) @type.keyword)
 
 ((concrete_type) @type.builtin
   (#match? @type.builtin "^(Bool|Str|Num|List|Result|Dict|Set|Dec)"))
@@ -50,8 +45,10 @@
 "?"
 (arrow)
 (back_arrow)
-(backslash)
 ] @punctuation.delimiter.structural
+
+; Lambda pipes
+(anon_fun_expr "|" @punctuation.delimiter.structural)
 (bang_expr "!" @punctuation.delimiter.structural)
 [
   ","
@@ -79,17 +76,17 @@
 
 [
   "if"
-  "then"
   "else"
 ] @keyword.control.conditional
 
 [
-(implements)
-(when)
-(is)
+"match"
 "as"
 (to)
 ] @keyword.control.roc
+
+; Match expression fat arrow
+(match_branch "=>" @punctuation.delimiter.structural)
 
 ;----headers-----
 
@@ -154,8 +151,6 @@
 (function_call_expr
   caller: (field_access_expr (identifier)@function .))
 
-(bin_op_expr (operator "|>")@operator(variable_expr(identifier)@function))
-
 ;----function arguments----
 
 (argument_patterns(identifier_pattern
@@ -167,7 +162,7 @@
 (argument_patterns(_(_(_(_(_(identifier_pattern(identifier)@variable.parameter)))))))
 
 ; pattern captures
-(when_is_branch pattern: (_ (identifier_pattern (identifier) @variable.parameter)))
+(match_branch pattern: (_ (identifier_pattern (identifier) @variable.parameter)))
 (range_pattern (identifier) @variable.parameter)
 
 
@@ -200,6 +195,7 @@
 
 (string)@string
 (multiline_string)@string
+(line_string)@string
 (char) @constant.character
 (escape_char)@constant.character.escape
 
