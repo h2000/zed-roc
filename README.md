@@ -1,7 +1,5 @@
 # Roc lang support for Zed
 
-> **Note:** This branch (`use-new-roc-lsp`) uses a fork of tree-sitter-roc with modern Roc syntax support. It is not ready to merge until the changes land upstream at [faldor20/tree-sitter-roc](https://github.com/faldor20/tree-sitter-roc).
-
 An extension for Zed that adds Roc language support:
 
 - syntax highlighting through treesitter and
@@ -16,7 +14,7 @@ An extension for Zed that adds Roc language support:
 ## ROC
 
 - Website: [roc-lang.org](https://roc-lang.org)
-- Tree Sitter: [tree-sitter-roc](https://github.com/lukewilliamboswell/tree-sitter-roc)
+- Tree Sitter: [tree-sitter-roc](https://github.com/faldor20/tree-sitter-roc)
 - Language Server: This extension uses the new experimental LSP integrated into the `roc` CLI via `roc experimental-lsp`.
 
 ## Development
