@@ -10,13 +10,13 @@
   ((_) @parameter.inside . ","? @parameter.around) @parameter.around(#not-eq? @parameter.inside "->")
 )
 
-(function_call_expr
+(function_call_pnc_expr
   .
   (_)
   (parenthesized_expr (expr_body) @parameter.inside) @parameter.around
 )
 
-(function_call_expr
+(function_call_pnc_expr
   .
   (_) ((_) @parameter.inside) @parameter.around
 )
@@ -24,7 +24,7 @@
 [
   (annotation_type_def ) @class.inside
   (alias_type_def ) @class.inside
-  (nominal_type_def ) @class.inside
+  (opaque_type_def ) @class.inside
 ] @class.around
 
 (apply_type_arg) @parameter.inside

@@ -1,6 +1,6 @@
 ;injection from function calls
-(function_call_expr
-  (variable_expr (identifier) @injection.language)
+(function_call_pnc_expr
+  caller: (variable_expr (identifier) @injection.language)
   (const [(multiline_string) (string)] @injection.content)
   (#any-of? @injection.language
     "json"
@@ -25,7 +25,7 @@
   part: (const
     [(multiline_string) (string)] @injection.content
   )
-  part: (operator)
+  part: (operator ("->"))
   part: (variable_expr
     (identifier) @injection.language
   )

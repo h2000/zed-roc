@@ -1,6 +1,6 @@
 [package]
 name = "zed_roc"
-version = "0.0.5"
+version = "0.1.1"
 authors = ["Alf Richter <kuehlboxen.vorgemisch0e@icloud.com>"]
 edition = "2021"
 

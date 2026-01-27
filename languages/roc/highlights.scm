@@ -1,60 +1,133 @@
-;;----comments----
+(identifier) @variable
+
+
 
 [
-  (line_comment)
-  (doc_comment) @comment.block.documentation
-] @comment
+  (concrete_type)
+  (tag_type)] @type
 
-;;----typedefs-----
 
-;; opinion: typedefs cross into documentation and should be
-;; highlighted differently from normal code
 
-(nominal_type_def (_ (concrete_type) @type.definition))
-(function_type (arrow) @punctuation.delimiter.structural.typedef)
-(function_type (effect_arrow) @punctuation.delimiter.structural.typedef)
+(module) @namespace
 
-(parenthesized_type ["(" ")"] @punctuation.bracket.typedef)
-(tuple_type ["(" ")"] @punctuation.bracket.typedef)
-(record_type ["{" "}"] @punctuation.bracket.typedef)
-(tags_type ["[" "]"] @punctuation.bracket.typedef)
 
-(function_type "," @punctuation.delimiter.typedef)
-(tuple_type "," @punctuation.delimiter.typedef)
-(record_type "," @punctuation.delimiter.typedef)
-(record_field_type ":" @punctuation.delimiter.typedef)
 
-(record_field_type (field_name) @variable.other.enum.typedef)
-(where_clause
-  (where) @type.keyword)
+;;
+;; Lower-priorty queries
+;;
+
+
+
+(argument_patterns                (identifier_pattern (identifier) @variable.parameter))
+(argument_patterns (_             (identifier_pattern (identifier) @variable.parameter)))
+(argument_patterns (_ (_          (identifier_pattern (identifier) @variable.parameter))))
+(argument_patterns (_ (_ (_       (identifier_pattern (identifier) @variable.parameter)))))
+(argument_patterns (_ (_ (_ (_    (identifier_pattern (identifier) @variable.parameter))))))
+(argument_patterns (_ (_ (_ (_ (_ (identifier_pattern (identifier) @variable.parameter)))))))
+(spread_pattern                                       (identifier) @variable.parameter)
+(match_branch pattern: (_       (identifier_pattern (identifier) @variable.parameter)))
+
+; N/A
+; @variable.other.member.private
+
+(field_name)                         @variable.other.member
+; Note: This query matches the second identifier and all subsequent ones.
+(field_access_expr      (identifier) @variable.other.member)
+; Note: This query highlights module members as records instead of free variables,
+;       which avoids highlighting them as out-of-scope vars.
+(variable_expr (module) (identifier) @variable.other.member)
+
+; N/A
+; @variable.other
+
+; N/A
+; @variable.builtin
+
+(record_field_pattern (_ (identifier) @variable))
+
+; Note: See the lower-priority queries below for a `@variable` query.
+
+
+
+(inferred) @type.roc-special.inferred
+
+(bound_variable) @type.parameter
+
+(tag_type) @type.enum.variant
+
+; N/A
+; @type.enum
+
+; Opinion: Type defs cross into documentation
+;          and should be highlighted differently from normal code.
+(opaque_type_def (_ (concrete_type) @type.definition))
 
 ((concrete_type) @type.builtin
-  (#match? @type.builtin "^(Bool|Str|Num|List|Result|Dict|Set|Dec)"))
+  (#match? @type.builtin "^(Dec|F(32|64))"))
 ((concrete_type) @type.builtin
   (#match? @type.builtin "^[IU](8|16|32|64|128)"))
 ((concrete_type) @type.builtin
-  (#match? @type.builtin "^F(32|64)"))
+  (#match? @type.builtin "^(Bool|Box|Dec|Decode|Dict|Encode|Hash|Inspect|Int|List|Num|Result|Set|Str)"))
 
-(bound_variable) @type.parameter
-(tags_type (apply_type(concrete_type) @type.enum.variant))
+; Note: See the lower-priority queries below for a `@type` query.
 
-(concrete_type) @type
 
-;;-----Punctuation----
+
+; N/A
+; @tag.builtin
+
+; N/A (We use `@constructor` and `@type.enum.variant` for "tags".)
+; @tag
+
+
+
+(app_header (packages_list (platform_ref ((package_uri) @string.special.url))))
+
+
+
+
+(app_header (packages_list (platform_ref ((package_uri) @string.special.url))))
+
+; N/A
+; @string.special.symbol
+
+; N/A
+; @string.special.path
+
+; N/A
+; @string.special
+
+; N/A
+; @string.regexp
+
+(string) @string
+(multiline_string) @string
+
+
+
+; TODO: Differentiate between values, functions, and types.
+(import_expr (exposing ((ident) @special.roc-special.exposed)))
+
+(app_header (packages_list ((platform_ref) @special.roc-special.package)))
+
+; TODO: Differentiate between values, functions, and types.
+(app_header (provides_list ((identifier) @special.roc-special.provided)))
+
+; N/A
+; @special
+
+
+
 [
-"?"
-(arrow)
-(back_arrow)
-] @punctuation.delimiter.structural
+  (interpolation_char)
+] @punctuation.special
 
-; Lambda pipes
-(anon_fun_expr "|" @punctuation.delimiter.structural)
-(bang_expr "!" @punctuation.delimiter.structural)
 [
   ","
   ":"
+  (arrow)
+  (fat_arrow)
 ] @punctuation.delimiter
-
 
 [
   "("
@@ -63,153 +136,192 @@
   "}"
   "["
   "]"
-  (interpolation_char)
+  "|" ; TODO: This conflicts with the `"|" @operator` query, so improve both.
 ] @punctuation.bracket
 
-[
-  "|"
-  "&"
-  ".."
-  (operator)
-  (wildcard_pattern)
-] @operator
+; N/A
+; @punctuation
+
+
 
 [
-  "if"
+  "="
+  "."
+  "&"
+  ; "|" ; TODO: This conflicts with the `"|" @punctuation.bracket` query, so improve both.
+  "<-"
+  "->"
+  ".."
+  "!"
+  "*"
+  "-"
+  "^"
+  (wildcard_pattern)
+  (operator)
+] @operator
+
+
+
+; N/A
+; @label
+
+
+
+; TODO: Implement this for `var`.
+; @keyword.storage.type
+
+; N/A
+; @keyword.storage.modifier
+
+; TODO: Implement this for `and`, `or`, and any others.
+[
+   (suffix_operator)
+  ] @keyword.operator
+
+; N/A
+; @keyword.function
+
+; N/A
+; @keyword.directive
+
+; TODO: Also implement this for `return`.
+[(suffix_operator ) "return"]@keyword.control.return
+
+; TODO: Implement this for `for` and `while`.
+; @keyword.control.repeat
+
+[
+  "import"
+] @keyword.control.import
+
+; N/A
+; @keyword.control.exception
+
+[
   "else"
+  "if"
+
+  (match)
 ] @keyword.control.conditional
 
 [
-"match"
-"as"
-(to)
-] @keyword.control.roc
-
-; Match expression fat arrow
-(match_branch "=>" @punctuation.delimiter.structural)
-
-;----headers-----
-
-[
   "app"
+  (as)
+  "as"
   "expect"
+  "exposing"
   "module"
   "package"
-  "import"
- ] @keyword.control
+  "platform"
+  (to)
+  "var"
+  (where)
+] @keyword.control
 
-;---annotations----
-
-(annotation_type_def
- (annotation_pre_colon
-  (identifier)@function )
- (function_type))
-
-(annotation_type_def
- (annotation_pre_colon
-  (identifier)@parameter.definition ))
+; N/A
+;
+; @keyword
 
 
-;----decleration types----
-(value_declaration(decl_left
-  (identifier_pattern
-   (identifier)@function.definition))(expr_body(anon_fun_expr)))
 
-(value_declaration(decl_left
-  (identifier_pattern
-   (identifier) @parameter.definition)))
-
-(backpassing_expr assignee: (identifier_pattern (identifier) @parameter.definition))
-
-;----tags----
-
-(tag)@constructor
-(opaque_tag)@constructor
-
-;-----builtins----
-
-(variable_expr
-  (module)@module
-  (identifier)@constant.builtin.boolean
-  (#eq? @constant.builtin.boolean "true" )
-  (#eq? @module "Bool" )
-  )
-(variable_expr
-  (module)@module
-  (identifier)@constant.builtin.boolean
-  (#eq? @constant.builtin.boolean "false" )
-  (#eq? @module "Bool" )
-  )
 [
-"dbg"
-] @constant.builtin
-;----function invocations ----
-(function_call_expr
-  caller:  (variable_expr
-      (identifier)@function))
+  "dbg"
+] @function.builtin
 
-(function_call_expr
-  caller: (field_access_expr (identifier)@function .))
-
-;----function arguments----
-
-(argument_patterns(identifier_pattern
-                (identifier)@variable.parameter))
-(argument_patterns(_(identifier_pattern(identifier)@variable.parameter)))
-(argument_patterns(_(_(identifier_pattern(identifier)@variable.parameter))))
-(argument_patterns(_(_(_(identifier_pattern(identifier)@variable.parameter)))))
-(argument_patterns(_(_(_(_(identifier_pattern(identifier)@variable.parameter))))))
-(argument_patterns(_(_(_(_(_(identifier_pattern(identifier)@variable.parameter)))))))
-
-; pattern captures
-(match_branch pattern: (_ (identifier_pattern (identifier) @variable.parameter)))
-(range_pattern (identifier) @variable.parameter)
-
-
-;;----records----
-
-(field_name)@variable.other.member
-(record_field_pattern (_(identifier) @variable))
+(value_declaration (decl_left (identifier_pattern  (identifier) @function))
+  (expr_body (anon_fun_expr)))
+(function_call_pnc_expr caller: (variable_expr     (identifier) @function))
+(function_call_pnc_expr caller: (field_access_expr (identifier) @function .))
+(bin_op_expr (operator "->") (variable_expr        (identifier) @function))
+(annotation_type_def (annotation_pre_colon         (identifier) @function)
+  (function_type))
 
 
 
-;matches the second identifier and all subsequent ones
-(field_access_expr (identifier) @variable.other.member)
+  (tag (identifier)@constructor)
 
-;highlight module members as records instead of free variables
-; avoids highlighting them as out-of-scope vars
-(variable_expr (module) (identifier) @variable.other.member)
 
-;-----consts-----
-[
-  (int)
-  (uint)
-  (iint)
-  (xint)
-  (natural)
-] @constant.numeric.integer
+
+
 [
   (decimal)
   (float)
 ] @constant.numeric.float
 
-(string)@string
-(multiline_string)@string
-(line_string)@string
+[
+  (iint)
+  (int)
+  (natural)
+  (uint)
+  (xint)
+] @constant.numeric.integer
+
+; N/A
+; @constant.numeric
+
+(escape_char) @constant.character.escape
+
 (char) @constant.character
-(escape_char)@constant.character.escape
 
-;---keep most generic types at bottom for helix---
-;; #any-of? not working in the tree-sitter for helix 23.10
-((module) @namespace.builtin (#eq? @namespace.builtin "Bool"))
-((module) @namespace.builtin (#eq? @namespace.builtin "Str"))
-((module) @namespace.builtin (#eq? @namespace.builtin "Num"))
-((module) @namespace.builtin (#eq? @namespace.builtin "List"))
-((module) @namespace.builtin (#eq? @namespace.builtin "Result"))
-((module) @namespace.builtin (#eq? @namespace.builtin "Dict"))
-((module) @namespace.builtin (#eq? @namespace.builtin "Set"))
-(module)@namespace
-(module)@module
+(tag_expr(tag (module) @ignoreme.module "." (identifier)@constant.builtin.boolean)
+  (#eq? @constant.builtin.boolean "True") (#eq? @ignoreme.module "Bool"))
+(tag_expr (tag(module) @module "." (identifier)@constant.builtin.boolean)
+  (#eq? @constant.builtin.boolean "False") (#eq? @module "Bool"))
 
-(identifier)@variable
+; N/A
+; @constant.builtin
 
+; N/A
+; @constant
+
+
+
+(line_comment) @comment.line
+
+(doc_comment) @comment.block.documentation
+
+; N/A
+; @comment.block
+
+; N/A
+; @comment
+
+
+
+; N/A
+; @attribute
+
+
+
+(record_field_type (field_name) @variable.other.member.roc-special.in-typedef)
+
+
+(function_type "," @punctuation.delimiter.roc-special.in-typedef)
+(record_type   "," @punctuation.delimiter.roc-special.in-typedef)
+(tuple_type    "," @punctuation.delimiter.roc-special.in-typedef)
+
+(parenthesized_type ["(" ")"] @punctuation.bracket.roc-special.in-typedef)
+(record_type        ["{" "}"] @punctuation.bracket.roc-special.in-typedef)
+(tags_type          ["[" "]"] @punctuation.bracket.roc-special.in-typedef)
+(tuple_type         ["(" ")"] @punctuation.bracket.roc-special.in-typedef)
+
+(static_dispatch_target
+(identifier)@function.method)
+
+
+((module) @namespace.roc-special.builtin
+  (#match? @namespace.roc-special.builtin "^(Bool|Box|Decode|Dict|Encode|Hash|Inspect|List|Num|Result|Set|Str)"))
+; TODO(bugfix): `Set` yields an ERROR in `expect Set.from_list(paths_as_str) == Set.from_list(["nested-dir/a", "nested-dir/child"])`
+
+
+
+;;
+;; Higher-priorty queries
+;;
+
+
+
+;; Highlight names (like `@comment.block.documentation`) are arbitrary.
+;; However, some text editors encourage a standard set in their themes.
+;; For consistency and quality, these queries assign the highlight names that Helix uses:
+;; see https://docs.helix-editor.com/themes.html#scopes
