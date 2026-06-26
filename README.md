@@ -10,6 +10,10 @@ An extension for Zed that adds Roc language support:
 - Install Roc from the [roc-lang](https://roc-lang.org) website
 - Ensure the `roc` binary is in your PATH
 - Install Zed from the [Zed](https://zed.dev) website
+- Install the Zed extension WebAssembly target for development:
+  ```sh
+  rustup target add wasm32-wasip2
+  ```
 
 ## ROC
 
@@ -26,7 +30,7 @@ An extension for Zed that adds Roc language support:
 3. Select this repository folder
 4. Click "Rebuild" if prompted
 
-**Note:** The version shown in Zed's Extensions panel may display the marketplace version (e.g., v0.0.6) even when the dev extension is active. This is a Zed caching behavior when the extension ID matches a marketplace extension.
+**Note:** The version shown in Zed's Extensions panel may display the marketplace version even when the dev extension is active. This is a Zed caching behavior when the extension ID matches a marketplace extension.
 
 ### Verifying the Dev Extension is Running
 
@@ -42,22 +46,29 @@ If the path points to your local repository (not `~/Library/Application Support/
 - `extension.toml` - Extension manifest (id, version, grammar source, language config)
 - `languages/roc/config.toml` - Language configuration (file extensions, comments, brackets)
 - `languages/roc/*.scm` - Tree-sitter queries (highlights, indents, etc.)
-- `grammars/roc/` - Git clone of tree-sitter-roc (must match repository in extension.toml)
+- `src/lib.rs` - Rust extension entry point that launches `roc experimental-lsp --stdio`
+
+### Validating Changes
+
+```sh
+cargo fmt -- --check
+cargo clippy --all-targets -- -D warnings
+cargo test
+cargo build --target wasm32-wasip2
+```
 
 ### Updating the Tree-sitter Grammar
 
-The `grammars/roc/` directory must be a git clone of the repository specified in `extension.toml`. To update:
+Zed fetches the grammar from the repository and commit in `extension.toml`. The local `grammars/roc/` directory is ignored and only used as a working checkout when syncing query files.
+
+To update:
 
 1. Update the commit hash in `extension.toml` under `[grammars.roc]`
-2. Update the grammar submodule:
+2. Sync query files:
    ```sh
-   cd grammars/roc
-   git fetch origin
-   git checkout <commit-hash>
+   just sync-queries
    ```
-3. Sync query files: `cp grammars/roc/queries/*.scm languages/roc/`
-4. Delete cached wasm to force recompilation: `rm grammars/roc.wasm`
-5. In Zed, click "Rebuild" on the extension
+3. In Zed, click "Rebuild" on the extension
 
 ### Troubleshooting
 
@@ -73,20 +84,22 @@ The `grammars/roc/` directory must be a git clone of the repository specified in
   - Linux: `~/.local/share/zed/extensions/`
 
 **Grammar compilation errors:**
-- Ensure `grammars/roc/` is a git clone of the repository URL in `extension.toml`
-- The git remote origin must match the repository URL exactly
+- Check that `[grammars.roc]` in `extension.toml` points to a valid repository and commit
+- Remove any cached `grammars/roc.wasm` or `extension.wasm`, then rebuild the extension
 
 ### Useful Commands
 
 ```sh
 # Sync query files from grammar to languages
-cp grammars/roc/queries/*.scm languages/roc/
+just sync-queries
 
 # Clean build artifacts
-rm -f grammars/roc.wasm extension.wasm
+just clean
 
 # Check Zed logs (macOS)
 tail -f ~/Library/Logs/Zed/Zed.log | grep -i roc
 ```
+
+The `just` recipes are optional conveniences. The validation commands above only require Rust.
 
 ![Zed Example](https://github.com/h2000/zed-roc/assets/187650/1ec0cda3-3679-4223-bc5e-3272babde364)
