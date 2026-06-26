@@ -1,4 +1,9 @@
 (file
+  (nominal_type_def
+    (apply_type
+      (concrete_type) @name)) @item)
+
+(file
   (opaque_type_def
     (apply_type
       (concrete_type) @name)) @item)
@@ -14,6 +19,16 @@
     (identifier) @name)) @item)
 
 (file
+  (value_declaration
+    (decl_left
+      (identifier_pattern
+      (identifier) @name))) @item)
+
+(file
+  (var_declaration
+    name: (identifier) @name) @item)
+
+(nominal_methods
   (value_declaration
     (decl_left
       (identifier_pattern

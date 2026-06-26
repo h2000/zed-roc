@@ -19,7 +19,7 @@ impl zed::Extension for RocExtension {
 
         Ok(zed::Command {
             command: path,
-            args: vec!["experimental-lsp".to_string()],
+            args: vec!["experimental-lsp".to_string(), "--stdio".to_string()],
             env: Default::default(),
         })
     }

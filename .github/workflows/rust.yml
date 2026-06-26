@@ -16,7 +16,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build
-      run: cargo build --verbose
+    - name: Install Zed extension target
+      run: rustup target add wasm32-wasip2
+    - name: Check formatting
+      run: cargo fmt -- --check
+    - name: Lint
+      run: cargo clippy --all-targets -- -D warnings
+    - name: Build extension
+      run: cargo build --target wasm32-wasip2 --verbose
     - name: Run tests
       run: cargo test --verbose
