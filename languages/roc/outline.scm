@@ -14,6 +14,11 @@
       (concrete_type) @name)) @item)
 
 (file
+  (nominal_type_def
+    (apply_type
+      (concrete_type) @name)) @item)
+
+(file
   (annotation_type_def
     (annotation_pre_colon
     (identifier) @name)) @item)

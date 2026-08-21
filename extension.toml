@@ -9,7 +9,7 @@ languages = ["languages/roc"]
 
 [grammars.roc]
 repository = "https://github.com/faldor20/tree-sitter-roc"
-commit = "edc18052a9d7382ac9f9f5bf413db3a78d5ea12c"
+commit = "fc80e44f452314518550d947bcfdde6c3001a405"
 
 [language_servers.roc]
 language = "Roc"

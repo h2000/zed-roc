@@ -1,6 +1,28 @@
-; ;;How to write indents:
-; ;;think about the structures that should have indents inside and mark them with indent and extend
-; ;;think about the structures that indicate the end of an indent and mark them with extend.prevent-once
-; ;;find partially complete structures and create speciall rules for them.
-; ;;eg: (ERROR (is))  
-(expr_body)@indent
+[
+  (body_expression "}" @end)
+  (record_expr "}" @end)
+  (record_type "}" @end)
+  (list_expr "]" @end)
+  (list_pattern "]" @end)
+  (tags_type "]" @end)
+  (tuple_expr ")" @end)
+  (tuple_type ")" @end)
+  (parenthesized_expr ")" @end)
+  (parenthesized_type ")" @end)
+  (nominal_methods "}" @end)
+] @indent
+
+[
+  (value_declaration)
+  (var_declaration)
+  (anon_fun_expr)
+  (expect)
+  (if_expr)
+  (then)
+  (else)
+  (else_if)
+  (match_expr)
+  (match_branch)
+  (for_expr)
+  (while_expr)
+] @indent
