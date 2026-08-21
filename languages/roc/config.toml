@@ -1,7 +1,7 @@
 name = "Roc"
 grammar = "roc"
 path_suffixes = ["roc"]
-line_comments = ["#", "##"]
+line_comments = ["# ", "## "]
 brackets = [
     { start = "{", end = "}", close = true, newline = true },
     { start = "[", end = "]", close = true, newline = true },
