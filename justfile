@@ -7,13 +7,20 @@ check:
     cargo test
     cargo build --target wasm32-wasip2
 
-# Sync query files from the tree-sitter-roc commit in extension.toml.
+# Sync the generated highlight query from the tree-sitter-roc commit in extension.toml.
+# Other editor queries are maintained here because Zed's behavior differs.
 sync-queries:
     mkdir -p grammars
     if [ ! -d grammars/roc/.git ]; then git clone {{grammar_repository}} grammars/roc; fi
     cd grammars/roc && git remote set-url origin {{grammar_repository}}
     cd grammars/roc && git fetch origin && git checkout {{grammar_commit}}
-    cp -v grammars/roc/queries/*.scm languages/roc/
+    cp -v grammars/roc/queries-generated/zed/queries/highlights.scm languages/roc/
+    just check-highlight-captures
+    rm -f grammars/roc.wasm
+
+# Reject highlight captures that Zed themes do not support.
+check-highlight-captures:
+    scripts/check-highlight-captures.sh
 
 # Update grammar to a specific commit and sync queries
 update-grammar COMMIT:
@@ -21,7 +28,8 @@ update-grammar COMMIT:
     if [ ! -d grammars/roc/.git ]; then git clone {{grammar_repository}} grammars/roc; fi
     cd grammars/roc && git remote set-url origin {{grammar_repository}}
     cd grammars/roc && git fetch origin && git checkout {{COMMIT}}
-    cp -v grammars/roc/queries/*.scm languages/roc/
+    cp -v grammars/roc/queries-generated/zed/queries/highlights.scm languages/roc/
+    just check-highlight-captures
     rm -f grammars/roc.wasm
     @echo "Done. Click 'Rebuild' in Zed to recompile the grammar."
 

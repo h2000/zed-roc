@@ -1,6 +1,7 @@
-(anon_fun_expr
-  (expr_body) @function.inside
-) @function.around
+(value_declaration
+  body: (expr_body
+    (anon_fun_expr
+      (expr_body) @function.inside))) @function.around
 
 (argument_patterns
   ((_) @parameter.inside . ","? @parameter.around) @parameter.around
@@ -25,6 +26,7 @@
   (annotation_type_def ) @class.inside
   (alias_type_def ) @class.inside
   (opaque_type_def ) @class.inside
+  (nominal_type_def ) @class.inside
 ] @class.around
 
 (apply_type_arg) @parameter.inside
@@ -35,5 +37,4 @@
 
 (line_comment) @comment.around
 (doc_comment) @comment.around
-
 

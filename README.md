@@ -90,7 +90,7 @@ To update:
 ### Useful Commands
 
 ```sh
-# Sync query files from grammar to languages
+# Sync the generated Zed highlight query from the grammar
 just sync-queries
 
 # Clean build artifacts
