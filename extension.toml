@@ -1,7 +1,7 @@
 id = "roc"
 name = "Roc"
 description = "Roc language support for Zed"
-version = "0.1.2"
+version = "0.2.0"
 schema_version = 1
 authors = ["Alf Richter <kuehlboxen.vorgemisch0e@icloud.com>"]
 repository = "https://github.com/h2000/zed-roc"
@@ -9,7 +9,7 @@ languages = ["languages/roc"]
 
 [grammars.roc]
 repository = "https://github.com/faldor20/tree-sitter-roc"
-commit = "d91c4e8c972ad8aac03fa45414a11f564c2274e3"
+commit = "2760de95b87004ed537151f2467377a6ddafdef0"
 
 [language_servers.roc]
 language = "Roc"
