@@ -21,6 +21,20 @@ An extension for Zed that adds Roc language support:
 - Tree Sitter: [tree-sitter-roc](https://github.com/faldor20/tree-sitter-roc)
 - Language Server: This extension uses the new experimental LSP integrated into the `roc` CLI via `roc experimental-lsp`.
 
+### Workspace trust
+
+`roc experimental-lsp` serves hover, completion, diagnostics and the other semantic features only when the client says the workspace is trusted (`initializationOptions.trustedWorkspace`), because they build the project: that downloads its URL packages and runs compile-time evaluation.
+
+Zed starts no language server in a worktree in Restricted Mode, so the server only runs once you trust the worktree. The extension then always tells it the workspace is trusted. To keep the semantic features off anyway, set this in Zed's settings:
+
+```json
+"lsp": {
+  "roc": {
+    "initialization_options": { "trustedWorkspace": false }
+  }
+}
+```
+
 ## Development
 
 ### Installing the Dev Extension
